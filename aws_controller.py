@@ -1,10 +1,10 @@
-# import boto3
+import boto3
 #
-# dynamo_client = boto3.client('dynamodb', region_name='us-east-1')
-# # table = dynamo_client.Table('YourTestTable')
+dynamo_client = boto3.client('dynamodb', region_name='us-east-1')
+# table = dynamo_client.Table('YourTestTable')
 #
-# db = boto3.resource('dynamodb', region_name='us-east-1')
-# table = db.Table('YourTestTable')
+db = boto3.resource('dynamodb', region_name='us-east-1')
+table = db.Table('YourTestTable')
 #
 # allItems = dynamo_client.scan(TableName='YourTestTable')
 #
@@ -20,5 +20,5 @@
 #         print("WTF")
 #
 #
-# def get_items():
-#     return dynamo_client.scan(TableName='YourTestTable')
+def get_items():
+    return dynamo_client.scan(TableName='YourTestTable')
