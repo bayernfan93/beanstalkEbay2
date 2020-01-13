@@ -9,18 +9,15 @@ table = db.Table('YourTestTable')
 allItems = dynamo_client.scan(TableName='YourTestTable')
 
 for key, value in allItems:
-    print
-    key, value
-
-if key != 'Marcel Viehmaier':
-    response = table.put_item(
-        Item={
-            'Artist': 'Marcel Viehmaier',
-            'Song': 'Student'
-        }
-    )
-else:
-    print("WTF")
+    if key != 'Marcel Viehmaier':
+        response = table.put_item(
+            Item={
+                'Artist': 'Marcel Viehmaier',
+                'Song': 'Student'
+            }
+        )
+    else:
+        print("WTF")
 
 
 def get_items():
