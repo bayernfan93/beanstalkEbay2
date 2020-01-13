@@ -19,16 +19,16 @@ polly = boto3.client('polly', region_name='us-east-1')
 def hello_world():
     return render_template('home.html')
 
-@application.route('/signup', methods=['GET', 'POST'])
-def sign_up():
-    form = aws_controller.SignUpForm()
-    if form.validate_on_submit():
-        print(
-            form.name.data,
-            form.email.data
-        )
-        return redirect(url_for('hello_world'))
-    return render_template('signup.html', form=form)
+# @application.route('/signup', methods=['GET', 'POST'])
+# def sign_up():
+#     form = aws_controller.SignUpForm()
+#     if form.validate_on_submit():
+#         print(
+#             form.name.data,
+#             form.email.data
+#         )
+#         return redirect(url_for('hello_world'))
+#     return render_template('signup.html', form=form)
 
 
 # @application.route('/get-items')
