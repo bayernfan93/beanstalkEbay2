@@ -48,10 +48,10 @@
             <form method="POST" action="">
                 <div onclick="">Text to speech:</div>
                 <input type=text name="texttospeech"></input><br/>
-                <input type="submit" value="Submit" style="display: block"></input></br>
+                <input type="submit" value="Submit"></input></br>
             </form>
             {% if session.sentence %}
-                <audio controls autoplay style="display: none">
+                <audio controls autoplay>
                     <source src='/say.mp3' type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
