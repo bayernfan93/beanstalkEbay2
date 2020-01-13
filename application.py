@@ -8,7 +8,7 @@ import aws_controller
 application = Flask(__name__)
 
 # AWS Polly is set here. It requires the newest version of Boto3
-polly = boto3.client('polly')
+polly = boto3.client('polly', region_name='us-east-1')
 
 
 @application.route('/')
