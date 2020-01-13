@@ -1,9 +1,10 @@
-from flask import Flask, render_template, jsonify, request, session, send_file
+from flask import Flask, render_template, jsonify, request, session, send_file, redirect, url_for
 import boto3
 import http.client
 import tempfile
 import os
 import aws_controller
+
 
 application = Flask(__name__)
 
@@ -17,6 +18,17 @@ polly = boto3.client('polly', region_name='us-east-1')
 @application.route('/')
 def hello_world():
     return render_template('home.html')
+
+@application.route('/signup', methods=['GET', 'POST'])
+def sign_up():
+    form = aws_controller.SignUpForm()
+    if form.validate_on_submit():
+        print(
+            form.name.data,
+            form.email.data
+        )
+        return redirect(url_for('hello_world'))
+    return render_template('signup.html', form=form)
 
 
 # @application.route('/get-items')

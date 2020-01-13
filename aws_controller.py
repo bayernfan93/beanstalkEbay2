@@ -1,24 +1,21 @@
-import boto3
-#
+import boto
+
+from wtforms import StringField, IntegerField, SubmitField
+from wtforms.validators import DataRequired, Email
+
 dynamo_client = boto3.client('dynamodb', region_name='us-east-1')
-# table = dynamo_client.Table('YourTestTable')
-#
+
 db = boto3.resource('dynamodb', region_name='us-east-1')
 table = db.Table('YourTestTable')
-#
-# allItems = dynamo_client.scan(TableName='YourTestTable')
-#
-# for key, value in allItems:
-#     if key != 'Marcel Viehmaier':
-#         response = table.put_item(
-#             Item={
-#                 'Artist': 'Marcel Viehmaier',
-#                 'Song': 'Student'
-#             }
-#         )
-#     else:
-#         print("WTF")
-#
-#
+
+def put_items():
+    return table.put_item(
+
+    )
+
 def get_items():
     return dynamo_client.scan(TableName='YourTestTable')
+
+class SignUpForm(FlaskForm):
+    name = StringField(validators=[DataRequired()])
+    email = StringField(validators=[DataRequired(), Email(message="not a valid email")])
