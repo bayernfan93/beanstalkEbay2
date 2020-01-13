@@ -7,6 +7,9 @@ import aws_controller
 
 application = Flask(__name__)
 
+# Make sessions work
+application.secret_key = os.urandom(24)
+
 # AWS Polly is set here. It requires the newest version of Boto3
 polly = boto3.client('polly', region_name='us-east-1')
 
