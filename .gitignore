@@ -5,3 +5,4 @@
 !.elasticbeanstalk/*.global.yml
 venv
 flask_wtf
+additionalFiles
