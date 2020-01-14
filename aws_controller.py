@@ -9,17 +9,17 @@ db = boto3.resource('dynamodb', region_name='us-east-1')
 table = db.Table('YourTestTable')
 
 
-def put_items():
-    return table.put_item(
-        Item={
-            'Artist': 'Peter Mueller',
-            'Song': 'Angestellter'
-        }
-    )
+# def put_items():
+#     return table.put_item(
+#         Item={
+#             'Artist': 'Peter Mueller',
+#             'Song': 'Angestellter'
+#         }
+#     )
 
-    def get_items():
-        return dynamo_client.scan(TableName='YourTestTable')
-    #
-    # class SignUpForm():
-    #     name = StringField(validators=[DataRequired()])
-    #     email = StringField(validators=[DataRequired(), Email(message="not a valid email")])
+def get_items():
+    return dynamo_client.scan(TableName='YourTestTable')
+#
+# class SignUpForm():
+#     name = StringField(validators=[DataRequired()])
+#     email = StringField(validators=[DataRequired(), Email(message="not a valid email")])

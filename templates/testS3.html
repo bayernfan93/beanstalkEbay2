@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <!-- Theme Made By www.w3schools.com -->
-    <title>Bootstrap Theme ebay2 Page</title>
+    <title>Bootstrap Theme Company Page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -241,12 +241,12 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a onclick="location.href='/'">AWS Services -></a></li>
+                <li><a onclick="location.href='/'">AWS Services -></a></li>
                 <li><a onclick="location.href='/get-items'">DynamoDB</a></li>
                 <li><a onclick="location.href='/inserttext'">Polly</a></li>
                 <li><a onclick="location.href='/about'">SNS...</a></li>
                 <li><a onclick="location.href='/auktion'">Auktionen</a></li>
-                <li><a onclick="location.href='/testS3'">S3Bucket</a></li>
+                <li class="active"><a onclick="location.href='/testS3'">S3Bucket</a></li>
                 <li><a href="#pricing">PRICING</a></li>
                 <li><a href="#contact">CONTACT</a></li>
             </ul>
@@ -266,16 +266,41 @@
         </div>
     </form>
 </div>
-<!-- DynamoDB Items display -->
-<div>
 
+<!-- Angebot -->
+<div class="content ">
+        <h3>AWS Service S3 Bucket</h3>
+        <p>Welcome to this AWS S3 Demo</p>
+        <div>
+          <h3>Upload your file here:</h3>
+          <form method="POST" action="/upload" enctype=multipart/form-data>
+            <input type=file name=file>
+            <input type=submit value=Upload>
+          </form>
+        </div>
+        <div>
+          <h3>These are your uploaded files:</h3>
+          <p>Click on the filename to download it.</p>
+          <ul>
+            {% for item in contents %}
+              <li>
+                <a href="/download/{{ item.Key }}"> {{ item.Key }} </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+<div>
+    <img src="https://imgbucketebay2.s3.amazonaws.com/iphonexs64.jpeg">
 </div>
+    </div>
+
 <footer class="container-fluid text-center">
     <a href="#myPage" title="To Top">
         <span class="glyphicon glyphicon-chevron-up"></span>
     </a>
     <p>Bootstrap Theme Made By <a href="https://www.w3schools.com" title="Visit w3schools">www.w3schools.com</a></p>
 </footer>
+
 <script>
     $(document).ready(function () {
         // Add smooth scrolling to all links in navbar + footer link
@@ -312,5 +337,6 @@
         });
     })
 </script>
+
 </body>
 </html>
