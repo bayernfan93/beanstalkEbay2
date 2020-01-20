@@ -4,9 +4,6 @@ import http.client
 import tempfile
 import os
 import aws_controller
-from flask_wtf import form
-from wtforms import StringField, IntegerField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Email
 
 application = Flask(__name__)
 
@@ -19,6 +16,8 @@ application.secret_key = os.urandom(24)
 
 # AWS Polly is set here. It requires the newest version of Boto3
 polly = boto3.client('polly', region_name='us-east-1')
+db = boto3.resource('dynamodb', region_name='us-east-1')
+table = db.Table('signuptable')
 
 
 # bucket = boto3.client('s3', region_name='us-east-1')
@@ -31,14 +30,15 @@ def hello_world():
 
 @application.route('/signup', methods=['GET', 'POST'])
 def sign_up():
-    form = SignUpForm()
+    form = aws_controller.SignUpForm()
     if form.validate_on_submit():
-        # Abspeichern i einer datenbank
-        print(
-            form.name.data,
-            form.email.data,
-            form.mobile.data,
-            form.country.data
+        # ToDo: Abspeichern in einer Datenbank
+        table.put_item(
+            Item={
+                'name': form.name.data, 'email': form.email.data,
+                'mobie': form.mobile.data, 'username': form.username.data,
+                'country': form.country.data
+            }
         )
         return redirect(url_for('hello_world'))
     return render_template('signup.html', form=form)
@@ -175,14 +175,6 @@ def list_files(bucket):
         contents.append(item)
 
     return contents
-
-
-class SignUpForm(form):
-    name = StringField(validators=[DataRequired()])
-    email = StringField(validators=[DataRequired(), Email(message="not a valid email")])
-    mobile = StringField()
-    country = StringField(validators=[DataRequired()])
-    submit = SubmitField()
 
 
 if __name__ == '__main__':
