@@ -4,8 +4,7 @@ import http.client
 import tempfile
 import os
 import aws_controller
-
-# import flask-wtf import flask-form
+from flask_wtf import form
 
 application = Flask(__name__)
 
