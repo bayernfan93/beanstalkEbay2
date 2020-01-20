@@ -3,6 +3,7 @@ botocore==1.13.33
 Click==7.0
 docutils==0.15.2
 Flask==1.1.1
+Flask-WTF==0.14.2
 itsdangerous==1.1.0
 Jinja2==2.10.3
 jmespath==0.9.4
@@ -12,3 +13,4 @@ s3transfer==0.2.1
 six==1.13.0
 urllib3==1.25.7
 Werkzeug==0.16.0
+WTForms==2.2.1
