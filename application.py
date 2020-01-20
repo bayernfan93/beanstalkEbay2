@@ -5,6 +5,8 @@ import tempfile
 import os
 import aws_controller
 from flask_wtf import form
+from wtforms import StringField, IntegerField, BooleanField, SubmitField
+from wtforms.validators import DataRequired, Email
 
 application = Flask(__name__)
 
@@ -27,16 +29,19 @@ def hello_world():
     return render_template('home.html')
 
 
-# @application.route('/signup', methods=['GET', 'POST'])
-# def sign_up():
-#     form = aws_controller.SignUpForm()
-#     if form.validate_on_submit():
-#         print(
-#             form.name.data,
-#             form.email.data
-#         )
-#         return redirect(url_for('hello_world'))
-#     return render_template('signup.html', form=form)
+@application.route('/signup', methods=['GET', 'POST'])
+def sign_up():
+    form = SignUpForm()
+    if form.validate_on_submit():
+        # Abspeichern i einer datenbank
+        print(
+            form.name.data,
+            form.email.data,
+            form.mobile.data,
+            form.country.data
+        )
+        return redirect(url_for('hello_world'))
+    return render_template('signup.html', form=form)
 
 
 @application.route('/get-items')
@@ -170,6 +175,14 @@ def list_files(bucket):
         contents.append(item)
 
     return contents
+
+
+class SignUpForm(form):
+    name = StringField(validators=[DataRequired()])
+    email = StringField(validators=[DataRequired(), Email(message="not a valid email")])
+    mobile = StringField()
+    country = StringField(validators=[DataRequired()])
+    submit = SubmitField()
 
 
 if __name__ == '__main__':
