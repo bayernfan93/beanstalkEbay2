@@ -225,6 +225,15 @@
             }
         }
 
+        .dev {
+            border: 1px solid black;
+        }
+
+        .picture {
+            width: 100%;
+            padding: 1em;
+        }
+
     </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -244,10 +253,10 @@
                 <li><a onclick="location.href='/'">AWS Services -></a></li>
                 <li><a onclick="location.href='/signup'">Sign Up</a></li>
                 <li><a onclick="location.href='/login'">Login</a></li>
-                <li><a onclick="location.href='/profile'">Profile</a></li>
+                <li class="active"><a onclick="location.href='/profile'">Profile</a></li>
                 <li><a onclick="location.href='/get-items'">DynamoDB</a></li>
-                <li class="active"><a onclick="location.href='/inserttext'">Polly</a></li>
-                <li><a onclick="location.href='/testS3'">S3Bucket</a></li>
+                <li><a onclick="location.href='/inserttext'">Polly</a></li>
+                <li><a onclick="location.href='/testS3'">S3 Bucket</a></li>
                 <li><a onclick="location.href='/auktion'">Auktionen</a></li>
             </ul>
         </div>
@@ -267,33 +276,5 @@
     </form>#}
 </div>
 
-<div class="container-fluid text-center">
-    <div class="row content">
-        <div class="col-sm-8 text-left">
-            <h1 onclick="">Welcome</h1>
-            <p>
-            <form method="POST" action="">
-                <div onclick="">Text to speech:</div>
-                <input type=text name="texttospeech"></input><br/>
-                <input type="submit" value="Submit"></input></br>
-            </form>
-            {% if session.sentence %}
-                <audio controls autoplay>
-                    <source src='/say.mp3' type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-            {% else %}
-                <p>No text has been entered :(</p>
-            {% endif %}
-            <hr>
-            <h3>Test</h3>
-            <p>Lorem ipsum...</p>
-        </div>
-    </div>
-</div>
-
-<footer class="container-fluid text-center">
-    <p>Footer Text</p>
-</footer>
 </body>
 </html>

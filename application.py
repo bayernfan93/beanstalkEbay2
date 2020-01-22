@@ -1,9 +1,10 @@
-from flask import Flask, render_template, jsonify, request, session, send_file, redirect, url_for
+from flask import Flask, render_template, jsonify, request, session, send_file, redirect, url_for, flash
 import boto3
 import http.client
 import tempfile
 import os
 import aws_controller
+from flask_login import LoginManager, UserMixin
 
 application = Flask(__name__)
 
@@ -15,12 +16,10 @@ bucket = "imgbucketebay2"
 application.secret_key = os.urandom(24)
 
 # AWS Polly is set here. It requires the newest version of Boto3
+login = LoginManager(application)
 polly = boto3.client('polly', region_name='us-east-1')
 db = boto3.resource('dynamodb', region_name='us-east-1')
 table = db.Table('signuptable')
-
-
-# bucket = boto3.client('s3', region_name='us-east-1')
 
 
 @application.route('/')
@@ -28,46 +27,48 @@ def hello_world():
     return render_template('home.html')
 
 
+# Sign Up
 @application.route('/signup', methods=['GET', 'POST'])
 def sign_up():
     form = aws_controller.SignUpForm()
     if form.validate_on_submit():
-        # ToDo: Abspeichern in einer Datenbank
         table.put_item(
             Item={
                 'name': form.name.data, 'email': form.email.data,
                 'mobie': form.mobile.data, 'username': form.username.data,
-                'country': form.country.data
+                'password': form.password.data, 'country': form.country.data
             }
         )
         return redirect(url_for('hello_world'))
     return render_template('signup.html', form=form)
 
 
+# @application.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if current_user.is_authenticated:
+#         return redirect(url_for('index'))
+
+
+@application.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+
+# get all Items from DynamoDB Table YourTestTable
 @application.route('/get-items')
 def get_items():
     return render_template('get-items.html')
-
-
-# @application.route('/get-items')
-# def get_items():
-#     return jsonify(aws_controller.get_items())
-
-
-@application.route('/about')
-def about():
-    return render_template('about.html')
-
-
-@application.route('/auktion')
-def auktion():
-    return render_template('auktion.html')
 
 
 @application.route("/testS3")
 def storage():
     contents = list_files("imgbucketebay2")
     return render_template('testS3.html', contents=contents)
+
+
+@application.route('/auktion')
+def auktion():
+    return render_template('auktion.html', title='test')
 
 
 @application.route("/upload", methods=['POST'])
@@ -86,17 +87,6 @@ def download(filename):
         output = download_file(filename, BUCKET)
 
         return send_file(output, as_attachment=True)
-
-
-# @application.route('/testS3')
-# def tests3():
-#     return render_template('testS3.html')
-
-# @application.route('/inserttext')
-# def inserttext():
-#     return render_template('inserttext.html')
-
-# This generates the primary site used where text is inputted
 
 
 @application.route('/inserttext/', methods=['GET', 'POST'])
@@ -176,6 +166,40 @@ def list_files(bucket):
 
     return contents
 
+
+application.route('/login', methods=['GET', 'POST'])
+def login():
+    # form = aws_controller.LoginForm()
+    # if form.validate_on_submit():
+    #     flash('Login requested for user {}, remember_me={}'.format(
+    #         form.username.data, form.remember_me.data))
+    #     return redirect('/index')
+    return render_template('login.html', title='Sign In', form=form)
+
+
+# @login.user_loader
+# def load_user(mail):
+#     return User.query.get(str(mail))
+
+
+# bucket = boto3.client('s3', region_name='us-east-1')
+
+# @application.route('/testS3')
+# def tests3():
+#     return render_template('testS3.html')
+
+# @application.route('/inserttext')
+# def inserttext():
+#     return render_template('inserttext.html')
+
+# @application.route('/get-items')
+# def get_items():
+#     return jsonify(aws_controller.get_items())
+
+
+# @application.route('/about')
+# def about():
+#     return render_template('about.html')
 
 if __name__ == '__main__':
     application.run()

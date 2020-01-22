@@ -36,7 +36,7 @@
         .jumbotron {
             background-color: #f4511e;
             color: #fff;
-            padding: 100px 25px;
+            padding: 50px 25px;
             font-family: Montserrat, sans-serif;
         }
 
@@ -225,6 +225,44 @@
             }
         }
 
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -237,19 +275,19 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+
             <a class="navbar-brand" href="#myPage">Logo</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a onclick="location.href='/'">AWS Services -></a></li>
                 <li><a onclick="location.href='/signup'">Sign Up</a></li>
+                <li><a onclick="location.href='/login'">Login</a></li>
+                <li><a onclick="location.href='/profile'">Profile</a></li>
                 <li><a onclick="location.href='/get-items'">DynamoDB</a></li>
                 <li><a onclick="location.href='/inserttext'">Polly</a></li>
-                <li><a onclick="location.href='/about'">SNS...</a></li>
-                <li><a onclick="location.href='/auktion'">Auktionen</a></li>
                 <li><a onclick="location.href='/testS3'">S3Bucket</a></li>
-                <li><a href="#pricing">PRICING</a></li>
-                <li><a href="#contact">CONTACT</a></li>
+                <li><a onclick="location.href='/auktion'">Auktionen</a></li>
             </ul>
         </div>
     </div>
@@ -258,14 +296,14 @@
 <div class="jumbotron text-center">
     <h1>ebay2 P&B</h1>
     <p>We specialize in auctions, like Ebay, just better</p>
-    <form>
+    {#<form>
         <div class="input-group">
             <input type="email" class="form-control" size="50" placeholder="Email Address" required>
             <div class="input-group-btn">
                 <button type="button" class="btn btn-danger">Subscribe</button>
             </div>
         </div>
-    </form>
+    </form>#}
 </div>
 
 <!-- Container (About Section) -->
@@ -279,7 +317,15 @@
                 We also tried to program in Python and used Flask for our frontend.
             </p>
             <br>
-            <button class="btn btn-default btn-lg">Get in Touch</button>
+            <button id="myBtn" class="btn btn-default btn-lg">Get in Touch</button>
+        </div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Some text in the Modal..</p>
+            </div>
         </div>
         <div class="col-sm-4">
             <span class="glyphicon glyphicon-signal logo"></span>
