@@ -4,8 +4,7 @@ import http.client
 import tempfile
 import os
 import aws_controller
-from flask_login import LoginManager, UserMixin
-
+from flask_login import LoginManager
 
 application = Flask(__name__)
 
@@ -190,11 +189,6 @@ def list_files(bucket):
         contents.append(item)
 
     return contents
-
-def operations():
-    global isAuthenticated
-    if currentUser != 'seemannb@hs-pforzheim.de':
-        isAuthenticated = True
 
 
 if __name__ == '__main__':

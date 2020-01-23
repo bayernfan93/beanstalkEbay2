@@ -36,7 +36,7 @@
         .jumbotron {
             background-color: #f4511e;
             color: #fff;
-            padding: 50px 25px;
+            padding: 40px 25px;
             font-family: Montserrat, sans-serif;
         }
 
@@ -257,14 +257,6 @@
 <div class="jumbotron text-center">
     <h1>ebay2 P&B</h1>
     <p>We specialize in auctions, like Ebay, just better</p>
-    {#<form>
-        <div class="input-group">
-            <input type="email" class="form-control" size="50" placeholder="Email Address" required>
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-danger">Subscribe</button>
-            </div>
-        </div>
-    </form>#}
 </div>
 
 <div class="container-fluid text-center">
@@ -286,14 +278,52 @@
                 <p>No text has been entered :(</p>
             {% endif %}
             <hr>
-            <h3>Test</h3>
-            <p>Lorem ipsum...</p>
         </div>
     </div>
 </div>
 
-<footer class="container-fluid text-center">
-    <p>Footer Text</p>
+<footer class="container text-center">
+    <a href="#myPage" title="To Top">
+        <span class="glyphicon glyphicon-chevron-up"></span>
+    </a>
 </footer>
+
+<script>
+    $(document).ready(function () {
+        // Add smooth scrolling to all links in navbar + footer link
+        $(".navbar a, footer a[href='#myPage']").on('click', function (event) {
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 900, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+
+        $(window).scroll(function () {
+            $(".slideanim").each(function () {
+                var pos = $(this).offset().top;
+
+                var winTop = $(window).scrollTop();
+                if (pos < winTop + 600) {
+                    $(this).addClass("slide");
+                }
+            });
+        });
+    })
+</script>
+
 </body>
 </html>

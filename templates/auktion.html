@@ -36,7 +36,7 @@
         .jumbotron {
             background-color: #f4511e;
             color: #fff;
-            padding: 50px 25px;
+            padding: 40px 25px;
             font-family: Montserrat, sans-serif;
         }
 
@@ -225,10 +225,6 @@
             }
         }
 
-        .dev {
-            border: 1px solid black;
-        }
-
         .picture {
             width: 100%;
             padding: 1em;
@@ -266,49 +262,43 @@
 <div class="jumbotron text-center">
     <h1>ebay2 P&B</h1>
     <p>We specialize in auctions, like Ebay, just better</p>
-    {#<form>
-        <div class="input-group">
-            <input type="email" class="form-control" size="50" placeholder="Email Address" required>
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-danger">Subscribe</button>
-            </div>
-        </div>
-    </form>#}
 </div>
 
 <!-- Angebot -->
-<div class="container-fluid bg-grey">
+<div class="container bg-grey">
     <div class="row">
-        <div class="col-sm-4" style="border: 1px solid black">
-            {#            <img class="picture" src="{{ title }}" alt="Responsive image">#}
-            <img class="picture" src="https://imgbucketebay2.s3.amazonaws.com/{{image}}" alt="Responsive image">
+        <div class="col-sm-4">
+            <img class="picture" src="https://imgbucketebay2.s3.amazonaws.com/{{ image }}" alt="Responsive image">
             <div>
-                <h3>Upload your file here:</h3>
                 <form method="POST" action="/upload" enctype=multipart/form-data>
                     <input type=file name=file>
                     <input type=submit value=Upload>
                 </form>
-                Choose your new product picture carefully<br>
-                Click on the prefered picture to select it...
-                <ul>
-                    {% for item in contents %}
-                        <li>
-                            <a href="/download/{{ item.Key }}"> {{ item.Key }} </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-
-
             </div>
         </div>
-        <div class="col-sm-8 dev">
+        <div class="col-sm-8">
             <!-- Title -->
             <h2>Apple iPHONE XS 64GB</h2><br>
             <!-- Information -->
-            <h4></h4>
-            <br>
+            <h4>
+                <ul>
+                    <li>5,8" Super Retina HD OLED Display (14,7 cm Diagonale)</li>
+                    <li>Wasser- und Staubschutz (2 Meter bis zu 30 Minuten, IP68)</li>
+                    <li>12 Megapixel Zwei-Kamera-System mit Weitwinkel- und Teleobjektiv, Porträtmodus, Porträtlicht,
+                        Tiefen-Kontrolle, Smart HDR und 4K Video bis zu 60 fps
+                    </li>
+                    <li>7 Megapixel TrueDepth Frontkamera mit Porträtmodus, Porträtlicht, Tiefen-Kontrolle und 1080p
+                        Video
+                    </li>
+                    <li>Face ID für sicheres Authentifizieren und Apple Pay</li>
+                    <li>A12 Bionic mit Neural Engine der 2. Generation</li>
+                    <li>Kabelloses Laden</li>
+                </ul>
+            </h4>
             <!-- Kaufaktionen -->
-            <p></p>
+            <p>
+                <button style="background-color: #888888; color: white">Sofort Kaufen</button>
+            </p>
         </div>
     </div>
 </div>
