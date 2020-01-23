@@ -22,7 +22,7 @@ login = LoginManager(application)
 polly = boto3.client('polly', region_name='us-east-1')
 db = boto3.resource('dynamodb', region_name='us-east-1')
 table = db.Table('signuptable')
-client = boto3.client(('dynamodb'))
+client = boto3.client('dynamodb', region_name='us-east-1')
 
 
 @application.route('/')
