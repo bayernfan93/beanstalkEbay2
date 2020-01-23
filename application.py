@@ -60,18 +60,24 @@ def login():
 
 @application.route('/profile')
 def profile():
-    respones = table.get_item(
-        Key={
-            'email': currentUser
-        }
-    )
-    item = respones['Item']
-    print(item)
-    username = item["username"]
-    name = item["name"]
-    email = item["email"]
-    mobile = item["mobile"]
-    country = item["country"]
+    try:
+        respones = table.get_item(
+            Key={
+                'email': currentUser
+            }
+        )
+        item = respones['Item']
+        username = item["username"]
+        name = item["name"]
+        email = item["email"]
+        mobile = item["mobile"]
+        country = item["country"]
+    except:
+        username = 'jonny93'
+        name = 'John Doe'
+        email = 'jonny93@wtf.de'
+        mobile = '017655121199'
+        country = 'DE'
     return render_template('profile.html', currentUser=currentUser, username=username, name=name, email=email,
                            mobil=mobile, country=country)
 
@@ -163,7 +169,7 @@ def upload_file(file_name, bucket):
     global image
     object_name = file_name
     s3_client = boto3.client('s3')
-    response = s3_client.upload_file(file_name, bucket, object_name,ExtraArgs={'ACL':'public-read'})
+    response = s3_client.upload_file(file_name, bucket, object_name, ExtraArgs={'ACL': 'public-read'})
     image = file_name
     return response
 
