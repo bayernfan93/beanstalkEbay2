@@ -264,7 +264,7 @@
 </nav>
 
 <div class="jumbotron text-center">
-    <h1>ebay2 P&B</h1>
+    <h1>PBCloud</h1>
     <p>We specialize in auctions, like Ebay, just better</p>
     {#<form>
         <div class="input-group">
@@ -276,6 +276,17 @@
     </form>#}
 </div>
 <div>
+    {% block content %}
+        <div class="container col-md-4" style="margin: 5rem 0 0 15rem">
+            <form method="post">
+                <h5 class="mb-3">Login</h5>
+                {{ form.hidden_tag() }}
+                {{ form.email(size=50, placeholder='email', class_ ='form-control') }}<br>
+                {{ form.password(size=50, placeholder='password', class_ ='form-control') }}<br>
+                {{ form.submit(class_ ='btn btn-success') }}
+            </form>
+        </div>
+    {% endblock %}
 </div>
 
 </body>

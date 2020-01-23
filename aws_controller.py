@@ -14,21 +14,6 @@ class SignUpForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
+    email = StringField('email', validators=[DataRequired()])
+    password = PasswordField('password', validators=[DataRequired()])
     submit = SubmitField('Sign In')
-
-# import boto3
-# dynamo_client = boto3.client('dynamodb', region_name='us-east-1')
-# db = boto3.resource('dynamodb', region_name='us-east-1')
-# table = db.Table('YourTestTable')
-# def put_items():
-#     return table.put_item(
-#         Item={
-#             'Artist': 'Peter Mueller',
-#             'Song': 'Angestellter'
-#         }
-#     )
-# def get_items():
-#     return dynamo_client.scan(TableName='YourTestTable')

@@ -11,6 +11,8 @@ application = Flask(__name__)
 UPLOAD_FOLDER = "additionalFiles"
 BUCKET = "imgbucketebay2"
 bucket = "imgbucketebay2"
+image = "iphonexs64.jpeg"
+currentUser = "seemannb@hs-pforzheim.de"
 
 # Make sessions work
 application.secret_key = os.urandom(24)
@@ -20,6 +22,7 @@ login = LoginManager(application)
 polly = boto3.client('polly', region_name='us-east-1')
 db = boto3.resource('dynamodb', region_name='us-east-1')
 table = db.Table('signuptable')
+client = boto3.client(('dynamodb'))
 
 
 @application.route('/')
@@ -35,7 +38,7 @@ def sign_up():
         table.put_item(
             Item={
                 'name': form.name.data, 'email': form.email.data,
-                'mobie': form.mobile.data, 'username': form.username.data,
+                'mobile': form.mobile.data, 'username': form.username.data,
                 'password': form.password.data, 'country': form.country.data
             }
         )
@@ -43,21 +46,40 @@ def sign_up():
     return render_template('signup.html', form=form)
 
 
-# @application.route('/login', methods=['GET', 'POST'])
-# def login():
-#     if current_user.is_authenticated:
-#         return redirect(url_for('index'))
+@application.route('/login', methods=['GET', 'POST'])
+def login():
+    global currentUser
+    form = aws_controller.LoginForm()
+    currentUser = form.email.data
+    if form.validate_on_submit():
+        flash('Login requested for user {}, remember_me={}'.format(
+            form.email.data, form.password.data))
+        return redirect(url_for('profile', currentUser=currentUser))
+    return render_template('login.html', form=form)
 
 
 @application.route('/profile')
 def profile():
-    return render_template('profile.html')
+    respones = table.get_item(
+        Key={
+            'email': currentUser
+        }
+    )
+    item = respones['Item']
+    print(item)
+    username = item["username"]
+    name = item["name"]
+    email = item["email"]
+    mobile = item["mobile"]
+    country = item["country"]
+    return render_template('profile.html', currentUser=currentUser, username=username, name=name, email=email,
+                           mobil=mobile, country=country)
 
 
-# get all Items from DynamoDB Table YourTestTable
 @application.route('/get-items')
 def get_items():
-    return render_template('get-items.html')
+    response = client.scan(TableName='signuptable')
+    return jsonify(response)
 
 
 @application.route("/testS3")
@@ -68,7 +90,8 @@ def storage():
 
 @application.route('/auktion')
 def auktion():
-    return render_template('auktion.html', title='test')
+    contents = list_files("imgbucketebay2")
+    return render_template('auktion.html', contents=contents, image=image)
 
 
 @application.route("/upload", methods=['POST'])
@@ -78,15 +101,15 @@ def upload():
         f.save(os.path.join(UPLOAD_FOLDER, f.filename))
         upload_file(f"additionalFiles/{f.filename}", BUCKET)
 
-        return redirect("/testS3")
+        return redirect("/auktion")
 
 
-@application.route("/download/<filename>", methods=['GET'])
+@application.route("/additionalFiles/<filename>", methods=['GET'])
 def download(filename):
+    print(filename)
     if request.method == 'GET':
-        output = download_file(filename, BUCKET)
-
-        return send_file(output, as_attachment=True)
+        output = download_file(filename, bucket)
+    return send_file(output, as_attachment=True)
 
 
 @application.route('/inserttext/', methods=['GET', 'POST'])
@@ -137,10 +160,11 @@ def upload_file(file_name, bucket):
     """
     Function to upload a file to an S3 bucket
     """
+    global image
     object_name = file_name
     s3_client = boto3.client('s3')
     response = s3_client.upload_file(file_name, bucket, object_name)
-
+    image = file_name
     return response
 
 
@@ -149,7 +173,7 @@ def download_file(file_name, bucket):
     Function to download a given file from an S3 bucket
     """
     s3 = boto3.resource('s3')
-    output = f"downloads/{file_name}"
+    output = f"download/{file_name}"
     s3.Bucket(bucket).download_file(file_name, output)
 
     return output
@@ -166,40 +190,11 @@ def list_files(bucket):
 
     return contents
 
+def operations():
+    global isAuthenticated
+    if currentUser != 'seemannb@hs-pforzheim.de':
+        isAuthenticated = True
 
-application.route('/login', methods=['GET', 'POST'])
-def login():
-    # form = aws_controller.LoginForm()
-    # if form.validate_on_submit():
-    #     flash('Login requested for user {}, remember_me={}'.format(
-    #         form.username.data, form.remember_me.data))
-    #     return redirect('/index')
-    return render_template('login.html', title='Sign In', form=form)
-
-
-# @login.user_loader
-# def load_user(mail):
-#     return User.query.get(str(mail))
-
-
-# bucket = boto3.client('s3', region_name='us-east-1')
-
-# @application.route('/testS3')
-# def tests3():
-#     return render_template('testS3.html')
-
-# @application.route('/inserttext')
-# def inserttext():
-#     return render_template('inserttext.html')
-
-# @application.route('/get-items')
-# def get_items():
-#     return jsonify(aws_controller.get_items())
-
-
-# @application.route('/about')
-# def about():
-#     return render_template('about.html')
 
 if __name__ == '__main__':
     application.run()
