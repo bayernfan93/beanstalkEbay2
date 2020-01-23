@@ -6,6 +6,7 @@ import os
 import aws_controller
 from flask_login import LoginManager, UserMixin
 
+
 application = Flask(__name__)
 
 UPLOAD_FOLDER = "additionalFiles"
